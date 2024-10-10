@@ -2,6 +2,7 @@ import { initialize } from "next/dist/server/lib/render-server";
 import { Ticker } from "./Types";
 import { time } from "console";
 
+// export const BASE_URL= "ws://15.207.114.21:3001/"
 export const BASE_URL= "ws://localhost:3001/"
 
 export class SignallingManager{

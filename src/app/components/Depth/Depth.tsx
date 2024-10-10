@@ -13,7 +13,7 @@ export default function Depth({market}: {market: string}){
 
     useEffect(()=>{
         SignallingManager.getInstance().registerCallback("depth", (data: Depthtype)=>{
-            console.log("calling callback")
+            console.log("calling callback", data)
             setDepth(depth => {
                 const asks = depth?.asks;
                 const bids = depth?.bids
@@ -24,11 +24,21 @@ export default function Depth({market}: {market: string}){
                         if (parseFloat(found[1]) == 0) {
                             return null; // Returning null here, which will be filtered out later
                         }
+                        data.asks.splice(data.asks.indexOf(found), 1)
                         return [found[0], found[1]]
                     }
                     return [ask[0], ask[1]]
                 }).filter((bid): bid is [string, string] => bid !== null) || []
 
+                if(data.asks.length > 0){
+                    data.asks.forEach(ask => {
+                        if(!(ask[1] == '0')){
+                            updatedAsks.push(ask)
+                        }
+                    })
+                }
+
+                console.log("updatedAsks: ", updatedAsks)
                 const updatedBids: [string, string][] = bids?.map(bid => {
                     let found = data.bids.find(dbid => parseFloat(dbid[0]).toFixed(2) == parseFloat(bid[0]).toFixed(2));
                     
@@ -37,19 +47,31 @@ export default function Depth({market}: {market: string}){
                         if (parseFloat(found[1]) == 0) {
                             return null; // Returning null here, which will be filtered out later
                         }
-
+                        data.bids.splice(data.bids.indexOf(found), 1); // Remove the matched bid from the data.bids array
                         return [found[0], found[1]]; // Return the updated bid
                     }
                     
                     return [bid[0], bid[1]]; // Return the original bid if no match is found
                 }).filter((bid): bid is [string, string] => bid !== null) || []
 
+                if(data.bids.length > 0){
+                    data.bids.forEach(bid => {
+                        if(!(bid[1] == '0')){
+                            updatedBids.push(bid)
+                        }
+                    })
+                }
+
+                console.log("updatedBids: ", updatedBids);
+
                 const newDepth : Depthtype = {
                     asks: updatedAsks,
                     bids: updatedBids
                 }
+
+                console.log("new Depth: ", newDepth)
+
                 return newDepth 
-                // return depth;
                 
             })
         }, `DEPTH-${market}`)
