@@ -1,13 +1,13 @@
 export default function Asktables({ asks: ask }: { asks: [string, string][] | [] }) {
     let asks = ask.slice(0, 15)
     asks = [...asks]
-    const totalVolume = asks.reduce((acc, [_, volume]) => acc + parseFloat(volume), 0)
+    const totalVolume = asks.reduce((acc, [, volume]) => acc + parseFloat(volume), 0)
     let tempTotal = 0;
     const arr = asks.map(([ask0, ask1], index) =>
         {
             tempTotal += parseFloat(ask1);
             return(
-            <div className="w-full relative">
+            <div key={index} className="w-full relative">
                 <div style={{
                     "transition": "width 0.3s ease-in-out",
                     "width": `${(tempTotal*50/totalVolume).toFixed(0)}%`
@@ -35,7 +35,8 @@ export default function Asktables({ asks: ask }: { asks: [string, string][] | []
         )
     return <>
         {
-            arr.reverse().map((item, index)=>(
+            arr.reverse().map((item)=>(
+                
                 item
             ))
         }

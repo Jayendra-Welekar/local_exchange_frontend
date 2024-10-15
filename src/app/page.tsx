@@ -1,13 +1,9 @@
 "use client"
-import Image from "next/image";
 import markets from "./utils/markets";
 import MarketShow from "./components/MarketShow";
-import { getTicker } from "./utils/HttpClient";
-import { useSession } from "next-auth/react";
 
 
 export default function Home() {
-  const sessiont = useSession()
   return (
     <div className="box-border flex flex-col justify-between items-center text-white h-[100vh] p-[10px] bg-[#0E0F14] ">
           <div className="w-full h-full flex flex-col items-center md:px-[100px]">

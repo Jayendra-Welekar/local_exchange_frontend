@@ -16,7 +16,7 @@ export default function DepthView({depth, trade, market}: {market: string, depth
             </div>
             <div id="depth" className="text-white text-xs h-[95%] overflow-auto">
                 <Asktables asks={asks}/>
-                <div className={`text-lg px-3 py-1 ${trade?.isBuyerMaker ? "text-green-500" : "text-red-500"}`}>{trade?.price}</div>
+                <div className={`text-lg px-3 py-1 ${trade?.isbuyermaker ? "text-green-500" : "text-red-500"}`}>{trade?.price}</div>
                 <Bidstables bids= {bids}/>
             </div>
         </div>

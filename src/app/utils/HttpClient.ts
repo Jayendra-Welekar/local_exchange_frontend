@@ -1,6 +1,6 @@
 import axios from "axios";
 import {Ticker, Depth, Trade, KLine, Order} from  "./Types"
-import  { AxiosResponse }  from "axios";
+// import  { AxiosResponse }  from "axios";
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -79,9 +79,9 @@ export async function postOnRamp(userId: string, amount: number){
         amount: amount.toString()
     }
 
-    const response: AxiosResponse<{data: {balance: number}} | {status: number}>  = await axios.post(url, data)
+    const response= await axios.post(url, data)
     if(response.status === 200){
-        return response.data.balance
+        return (response.data as {balance: number | string}).balance
     } else {
         return null
     }

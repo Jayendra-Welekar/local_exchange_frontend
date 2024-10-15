@@ -11,7 +11,6 @@ export default function SwapUI() {
     const [type, setType] = useState<"limit" | "market" | "orders">("limit");
     const [price, setPrice] = useState<string>("");
     const [quantity, setQuantity] = useState<string>("");
-    const [marketQuantity, setMarketQuantity] = useState<number>(0);
     const [balance, setBalance] = useState<{[key: string]: {available: string, locked: string}}>({});
     const [deposit, setDeposit] = useState<string>("")
     const [openOrders, setOpenOrders] = useState<Order[]>([]);

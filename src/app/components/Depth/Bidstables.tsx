@@ -3,7 +3,7 @@ export default function Bidstables({ bids: bid }: { bids: [string, string][] | [
 
     bid = [...bid].reverse()
     const bids = bid.slice(0, 15)
-    const totalVolume = bids.reduce((acc, [_, volume]) => acc + parseFloat(volume), 0)
+    const totalVolume = bids.reduce((acc, [, volume]) => acc + parseFloat(volume), 0)
     let tempTotal = 0;
     return <>
         {
@@ -11,7 +11,7 @@ export default function Bidstables({ bids: bid }: { bids: [string, string][] | [
             bids.map(([bid0, bid1], index) => {
                 tempTotal += parseFloat(bid1);
                 return (
-                    <div className="w-full relative">
+                    <div key={index} className="w-full relative">
                         <div style={{
                             "width": `${(tempTotal * 50 / totalVolume).toFixed(0)}%`,
                             "transition": "width 0.3s ease-in-out",

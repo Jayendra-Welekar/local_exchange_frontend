@@ -1,6 +1,5 @@
-import { initialize } from "next/dist/server/lib/render-server";
+
 import { Ticker } from "./Types";
-import { time } from "console";
 
 // export const BASE_URL= "ws://localhost:3001/"
 export const BASE_URL= "ws://15.207.114.21:3001/"
@@ -8,8 +7,8 @@ export class SignallingManager{
     private ws: WebSocket;
     private static instance: SignallingManager;
     private initialized : boolean = false
-    private callbacks: any;
-    private bufferedmessages: any[] = []
+    private callbacks;
+    private bufferedmessages = []
     private id: number;
 
     private constructor(){
@@ -30,13 +29,13 @@ export class SignallingManager{
     init(){
         this.ws.onopen = ()=>{
             this.initialized = true;
-            this.bufferedmessages.forEach((message: any)=>{
+            this.bufferedmessages.forEach((message)=>{
                 this.ws.send(JSON.stringify(message))
             })
             this.bufferedmessages = []
         }
         
-        this.ws.onmessage = (event: any)=>{
+        this.ws.onmessage = (event)=>{
             const message = JSON.parse(event.data)
             const type = message.data.e
             if(type == "ticker"){
@@ -51,7 +50,7 @@ export class SignallingManager{
 
                 }
 
-                this.callbacks[type].forEach((callback: any)=>{
+                this.callbacks[type].forEach((callback)=>{
                     callback.callback(newTicker)
                 })
             }
@@ -60,7 +59,7 @@ export class SignallingManager{
                     bids: message.data.b,
                     asks: message.data.a,
                 }
-                this.callbacks[type].forEach((callback: any)=>{
+                this.callbacks[type].forEach((callback)=>{
                     console.log("Call Callback")
                     callback.callback(newDepth)
                 })
@@ -72,7 +71,7 @@ export class SignallingManager{
                     timestamp: message.data.T,
                     buyerMaker: message.data.m,
                 }
-                this.callbacks[type].forEach((callback: any)=>{
+                this.callbacks[type].forEach((callback)=>{
                     callback.callback(newTrade)
                 })
               }
@@ -81,7 +80,7 @@ export class SignallingManager{
     
     
 
-    sendMessage(message: any){
+    sendMessage(message){
         const messageToSend = {
             ...message, id: this.id++
         }
@@ -92,14 +91,15 @@ export class SignallingManager{
         this.ws.send(JSON.stringify(messageToSend))
     }
 
-    async registerCallback( type: string, callback: any, id: string){
+    async registerCallback( type: string, callback, id: string){
+        console.log(id)
         this.callbacks[type] = this.callbacks[type] || []
         this.callbacks[type].push({callback, id: this.id})
     }
 
     async derigisterCallback(type: string, id: string){
         if(this.callbacks){
-            const index = this.callbacks[type].find((callback: any)=> callback.id === id)
+            const index = this.callbacks[type].find((callback)=> callback.id === id)
             if(index != -1){
                 this.callbacks[type].splice(index, 1)
             }

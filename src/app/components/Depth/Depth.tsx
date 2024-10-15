@@ -20,7 +20,7 @@ export default function Depth({market}: {market: string}){
                 const bids = prevDepth?.bids
 
                 const updatedAsks : [string, string][] = asks?.map(ask => {
-                    let found = data.asks.find(dask => parseFloat(dask[0]).toFixed(2) == parseFloat(ask[0]).toFixed(2))
+                    const found = data.asks.find(dask => parseFloat(dask[0]).toFixed(2) == parseFloat(ask[0]).toFixed(2))
                     if(found){
                         if (parseFloat(found[1]) == 0) {
                             return null; // Returning null here, which will be filtered out later
@@ -41,7 +41,7 @@ export default function Depth({market}: {market: string}){
 
                 console.log("updatedAsks: ", updatedAsks)
                 const updatedBids: [string, string][] = bids?.map(bid => {
-                    let found = data.bids.find(dbid => parseFloat(dbid[0]).toFixed(2) == parseFloat(bid[0]).toFixed(2));
+                    const found = data.bids.find(dbid => parseFloat(dbid[0]).toFixed(2) == parseFloat(bid[0]).toFixed(2));
                     
                     if (found) {
                         // Skip if found[1] is 0 (do not return anything, effectively removing the element)

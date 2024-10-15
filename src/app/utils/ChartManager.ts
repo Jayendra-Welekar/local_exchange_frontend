@@ -9,7 +9,7 @@ import {
   export default class ChartManager {
     private candleSeries: ISeriesApi<"Candlestick">;
     private lastUpdateTime: number = 0;
-    private chart: any;
+    private chart;
     private currentBar: {
       open: number | null;
       high: number | null;
@@ -23,8 +23,8 @@ import {
     };
   
     constructor(
-      ref: any,
-      initialData: any[],
+      ref,
+      initialData,
       layout: { background: string; color: string }
     ) {
         console.log("initialData", initialData)
@@ -68,7 +68,7 @@ import {
         }))
       );
     }
-    public update(updatedPrice: any) {
+    public update(updatedPrice) {
       if (!this.lastUpdateTime) {
         this.lastUpdateTime = new Date().getTime();
       }

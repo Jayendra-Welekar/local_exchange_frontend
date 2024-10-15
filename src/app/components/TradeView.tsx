@@ -16,7 +16,9 @@ export default function TradeView({
       try {
         klineData = await getKlines(market, "1h", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7)), Math.floor(new Date().getTime())); 
         console.log("klineData: ", klineData)
-    } catch (e) { }
+    } catch (e) { 
+      console.log(e)
+    }
 
       if (chartRef) {
         if (chartManagerRef.current) {
@@ -39,7 +41,6 @@ export default function TradeView({
             color: "white",
           }
         );
-        //@ts-ignore
         chartManagerRef.current = chartManager;
       }
     };

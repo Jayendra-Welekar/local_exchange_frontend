@@ -39,6 +39,10 @@ export interface Ticker {
     "trades": string,
     "volume": string
 }
+
+
+
+
 export interface Order {
     "filled": number,
     "orderId": string,

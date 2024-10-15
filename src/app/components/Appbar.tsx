@@ -6,6 +6,15 @@ import { useRouter } from "next/navigation";
 export const Appbar = () => {
   const router = useRouter()
   const session = useSession()
+
+  const logHandler = () => {
+    if (session.status === "authenticated"){
+      signOut()
+    } else {
+      signIn()
+    }
+  }
+
   return (
     <div className="z-10 fixed top-0 w-full h-14 flex flex-row justify-between items-center pl-[21px] pr-4 box-border p-2  bg-[#0E0F14] text-white">
       <div className="flex flex-row items-center ">
@@ -34,7 +43,7 @@ export const Appbar = () => {
       </div>
       <div id="user-menu" className="flex flex-row items-center pl-8">
         <button onClick={()=>{
-          session.status == "authenticated" ? signOut() : signIn()
+          logHandler()
         }} className="ml-10 p-3 py-1.5 rounded-lg bg-[#0C2922] text-[#02A367] text-sm font-semibold hover:opacity-[90%]">
           { session.status === "authenticated" ? "Logout" : "LogIn"}
         </button>

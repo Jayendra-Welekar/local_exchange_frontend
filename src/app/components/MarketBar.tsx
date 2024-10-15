@@ -6,7 +6,16 @@ import { getTicker } from "../utils/HttpClient"
 import Image from "next/image"
 export default function MarketBar({ symbol: market }: { symbol: string }) {
 
-    const [ticker, setTicker] = useState<Ticker | null>(null)
+    const [ticker, setTicker] = useState<Ticker>({"firstPrice": "0",
+        "high": "0",
+        "lastPrice": "0",
+        "low": "0",
+        "priceChange": "0",
+        "priceChangePercent": "0",
+        "quoteVolume": "0",
+        "symbol": "0",
+        "trades": "0",
+        "volume": "0"})
     useEffect(() => {
         getTicker(market).then(data => {
             console.log("Ticker data: ", data)
@@ -48,19 +57,20 @@ export default function MarketBar({ symbol: market }: { symbol: string }) {
             </div>
             <div className="flex flex-row justify-between items-center space-x-10 ">
                 <div className="flex flex-col justify-center items-center">
-                    <div className={`text-lg ${parseFloat(ticker?.priceChange!) > 0 ? "text-green-500" : "text-red-500"}`}>
-                        {ticker?.lastPrice}
+                
+                    <div className={`text-lg ${parseFloat(ticker?.priceChange || "0") > 0 ? "text-green-500" : "text-red-500"}`}>
+                        {ticker.lastPrice}
                     </div>
                     <div className="text-md">
-                        ${ticker?.lastPrice}
+                        ${ticker.lastPrice}
                     </div>
                 </div>
                 <div className="flex flex-col ">
                     <div className="text-xs text-slate-400 font-semibold">
                         24H Change
                     </div>
-                    <div className={`text-sm ${parseFloat(ticker?.priceChange!) > 0 ? "text-green-500" : "text-red-500"} `}>
-                        {parseFloat(ticker?.priceChange!).toFixed(2)}   {parseFloat(ticker?.priceChangePercent!).toFixed(2)}%
+                    <div className={`text-sm ${parseFloat(ticker?.priceChange || "0") > 0 ? "text-green-500" : "text-red-500"} `}>
+                        {parseFloat(ticker?.priceChange || "0").toFixed(2)}   {parseFloat(ticker?.priceChangePercent || "0").toFixed(2)}%
                     </div>
                 </div>
                 <div className="flex flex-col ">
@@ -84,7 +94,7 @@ export default function MarketBar({ symbol: market }: { symbol: string }) {
                         24H Volume
                     </div>
                     <div className={`text-sm `}>
-                        {ticker?.volume}
+                        {ticker.volume}
                     </div>
                 </div>
             </div>

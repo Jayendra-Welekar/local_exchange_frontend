@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import { Trade } from "../utils/Types";
 
 export default function Trades({market, trade}: {market: string, trade: Trade[]}){
