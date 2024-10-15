@@ -13,10 +13,11 @@ export default function Depth({market}: {market: string}){
 
     useEffect(()=>{
         SignallingManager.getInstance().registerCallback("depth", (data: Depthtype)=>{
-            console.log("calling callback", data)
-            setDepth(depth => {
-                const asks = depth?.asks;
-                const bids = depth?.bids
+            console.log("Depth data: ", data)
+            setDepth(prevDepth => {
+                console.log("prevDepth: ", prevDepth)
+                const asks = prevDepth?.asks;
+                const bids = prevDepth?.bids
 
                 const updatedAsks : [string, string][] = asks?.map(ask => {
                     let found = data.asks.find(dask => parseFloat(dask[0]).toFixed(2) == parseFloat(ask[0]).toFixed(2))
@@ -62,11 +63,9 @@ export default function Depth({market}: {market: string}){
                     })
                 }
 
-                console.log("updatedBids: ", updatedBids);
-
                 const newDepth : Depthtype = {
-                    asks: updatedAsks,
-                    bids: updatedBids
+                    asks: [...updatedAsks],
+                    bids: [...updatedBids]
                 }
 
                 console.log("new Depth: ", newDepth)
@@ -76,7 +75,6 @@ export default function Depth({market}: {market: string}){
             })
         }, `DEPTH-${market}`)
         SignallingManager.getInstance().sendMessage({"method": "SUBSCRIBE", "params": [`depth.${market}`]})
-
 
         getTrades(market).then(setTrade)
         getDepth(market).then(data => {
