@@ -29,7 +29,7 @@ export async function getTrades(market: string): Promise<Trade[]>{
 }
 
 export async function getKlines(market: string, interval: string, startTime: number, endTime: number): Promise<KLine[]> {
-
+    
     const response = await axios.get(`${BASE_URL}/kline?symbol=${market}&interval=${interval}&startTime=${startTime}&endTime=${endTime}`);
     
     console.log("KLINES: ", response)

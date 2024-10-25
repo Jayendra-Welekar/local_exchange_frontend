@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import ChartManager from "../utils/ChartManager";
 import { getKlines } from "../utils/HttpClient";
 import { KLine } from "../utils/Types";
+
 export default function TradeView({
   market,
 }: {
@@ -14,7 +15,7 @@ export default function TradeView({
     const init = async () => {
       let klineData: KLine[] = [];
       try {
-        klineData = await getKlines(market, "1h", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7)), Math.floor(new Date().getTime())); 
+        klineData = await getKlines(market, "1m", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7)), Math.floor(new Date().getTime())); 
         console.log("klineData: ", klineData)
     } catch (e) { 
       console.log(e)
