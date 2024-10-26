@@ -46,10 +46,10 @@ export default function MarketShow({market} : {market: {"name": string, "symbol"
             </div>  
             <div className="flex-grow grid grid-cols-4">
                 <div className="text-lg">
-                    {`$${ticker?.lastPrice}`}
+                    {`$${parseFloat(ticker?.lastPrice).toLocaleString()}`}
                 </div>
                 <div className="text-lg">
-                    {`$${ticker?.volume}`}
+                    {`$${parseFloat(ticker?.volume).toLocaleString()}`}
                 </div>
                 <div className="text-lg">
                     {`$${getParsed(ticker?.quoteVolume)}`}
@@ -65,7 +65,7 @@ export default function MarketShow({market} : {market: {"name": string, "symbol"
 function getParsed(value: string){
     const num = parseFloat(value);
     if(num > 1000){
-        return (num/1000).toFixed(2) + "K";
+        return parseFloat((num/1000).toFixed(2)).toLocaleString() + "K";
     }
-    return num.toFixed(2)
+    return num.toFixed(2).toLocaleString()
 }
