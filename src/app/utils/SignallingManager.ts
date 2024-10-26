@@ -1,7 +1,7 @@
 
 import { Ticker } from "./Types";
 
-export const BASE_URL= "wss://localexchangefreedns.mooo.com/ws"
+export const BASE_URL= "wss://localexchangefreedns.mooo.com/ws/"
 export class SignallingManager{
     private ws: WebSocket;
     private static instance: SignallingManager;
